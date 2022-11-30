@@ -1,0 +1,63 @@
+env:
+  TERM: alacritty
+
+window:
+  padding:
+    x: 3
+    y: 3
+  dynamic_padding: false
+  dynamic_title: true
+
+scrolling:
+  history: 50000
+
+font:
+  normal:
+    family:   Consolas
+    style:    Regular
+  bold:
+    family:   Consolas
+    style:    Bold
+  italic:
+    family:   Consolas
+    style:    Italic
+  bold_italic:
+    family:   Consolas
+    style:    Bold Italic
+  size: 9.5
+  offset:
+    x: 0
+    y: 0
+
+colors:
+  primary:
+    background:   '#161821'
+    foreground:   '#d8d7df'
+  cursor:
+    text:         '#ffffff'
+    cursor:       '#d6001c'
+  normal:
+    black:        '#0d0d0d'
+    red:          '#c8102e'
+    green:        '#2cc84d'
+    yellow:       '#f3dd6d'
+    blue:         '#7a93dc'
+    magenta:      '#e52b50'
+    cyan:         '#87cefa'
+    white:        '#ebebeb'
+  bright:
+    black:        '#4e4b48'
+    red:          '#e4002b'
+    green:        '#00c65e'
+    yellow:       '#c7e995'
+    blue:         '#9baee4'
+    magenta:      '#29ff91'
+    cyan:         '#e0ffff'
+    white:        '#fefef8'
+
+window.opacity: 1.0
+
+cursor:
+  style:
+    shape: Underline
+    blinking: On

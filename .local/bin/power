@@ -1,0 +1,7 @@
+#!/bin/sh
+
+case "$(printf "poweroff\\nreboot\\nlogout" | dmenu -l 3 -fn 'Verdana':size=9 -nb '#232533' -nf '#e5e1e6' -sb '#e5e1e6' -sf '#101820' -p "⏻ ")" in
+    poweroff) systemctl poweroff ;;
+    reboot) systemctl reboot ;;
+    logout) i3-msg exit ;;
+esac

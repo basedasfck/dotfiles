@@ -1,0 +1,132 @@
+[theme]
+name                    = "native"
+[theme.overrides]
+idle_bg                 = "#232533"
+idle_fg                 = "#f4f4f7"
+critical_bg             = "#202430"
+critical_fg             = "#ff0000"
+good_bg                 = "#232533"
+good_fg                 = "#f4f4f7"
+info_bg                 = "#202430"
+info_fg                 = "#76d02c"
+warning_bg              = "#202430"
+warning_fg              = "#fff59a"
+
+[icons]
+name                    = "none"
+[icons.overrides]
+ping                    = "<b>PING</b> "
+docker                  = "<span color='#ffffff'><b>DOCKER</b></span> "
+cpu                     = "<span color='#ffffff'><b>CPU</b></span> "
+memory_mem              = "<span color='#ffffff'><b>MEM</b></span> "
+cogs                    = "<span color='#ffffff'><b>SYSTEM</b></span> "
+thermometer             = "<b>TEMP</b> "
+volume_empty            = "<span color='#b4b8cd'><b></b></span>"
+volume_full             = "<span color='#b4b8cd'><b></b></span>"
+volume_half             = "<span color='#b4b8cd'><b></b></span>"
+volume_muted            = "<b>MUTED</b>"
+bat_charging            = "<b>CHG</b> [<b>樂</b>] "
+bat_not_available       = ""
+bat_empty               = "<b>BAT</b>  "
+bat_quarter             = "<b>BAT</b>  "
+bat_half                = "<b>BAT</b> [<b></b>] "
+bat_three_quarters      = "<b>BAT</b> [<b>?</b>] "
+bat_full                = "<b>BAT</b> [<b>~</b>]"
+time                    = ""
+
+[[block]]
+block                   = "focused_window"
+max_width               = 125
+format                  = "<span background='#1b1b22' face='Consolas'>\u00a0{combo}\u00a0</span> <span color='#868cae'></span>"
+[block.theme_overrides]
+idle_fg                 = "#ffffff"
+
+[[block]]
+block                   = "custom"
+json                    = true
+command                 = ''' echo "{\"icon\":\"ping\",\"text\":\"`ping -c1 google.com | tail -n1 | cut -d'/' -f5`\"}" '''
+interval                = 15
+[block.theme_overrides]
+idle_fg                 = "#fae7b5"
+
+[[block]]
+block                   = "docker"
+format                  = "{running:1}"
+interval                = 10
+on_click                = "alacritty -t Docker -e sh -c 'watch -n1 docker ps -a'"
+
+[[block]]
+block                   = "cpu"
+format                  = "{utilization:0} <span color='#636a94'>\u00a0፧\u00a0</span> {frequency}"
+info                    = 15
+warning                 = 30
+critical                = 60
+interval                = 1
+on_click                = "alacritty -t CPU -e htop -s PERCENT_CPU -t"
+
+[[block]]
+block                   = "memory"
+format_mem              = "{mem_used;G}"
+warning_mem             = 50
+critical_mem            = 75
+interval                = 5
+on_click                = "alacritty -t MEM -e htop -s PERCENT_MEM -t"
+
+[[block]]
+block                   = "load"
+format                  = "{1m:4} <span color='#636a94'>\u00a0፧\u00a0</span> {5m:4} <span color='#636a94'>\u00a0፧\u00a0</span> {15m:4}"
+interval                = 3
+on_click                = "alacritty -t SYSTEM -e systemctl status"
+
+[[block]]
+block                   = "disk_space"
+path                    = "/"
+format                  = "<span color='#ffffff'><b>SSD</b>\u00a0</span> {available} <span color='#f4f4f7'>\u00a0[<span color='#00ff00'>+</span>{used}]</span>"
+info_type               = "used"
+alert_absolute          = true
+unit                    = "GB"
+warning                 = 300
+alert                   = 350
+interval                = 30
+on_click                = "nemo ~/storage"
+
+[[block]]
+block                   = "temperature"
+format                  = "{max:1}"
+collapsed               = false
+scale                   = "celsius"
+chip                    = "coretemp-isa-0000"
+inputs                  = ["Core 0", "Core 1", "Core 2", "Core 3", "Core 4", "Core 5"]
+good                    = 20
+idle                    = 55
+info                    = 60
+warning                 = 80
+interval                = 5
+on_click                = "alacritty -t Temperature -e sh -c 'watch -n1 sensors'"
+
+[[block]]
+block                   = "sound"
+format                  = "<span background='#30334f'>\u00a0+<b>{volume*_%}</b>\u00a0</span>"
+step_width              = 5
+max_vol                 = 105
+on_click                = "pavucontrol"
+[block.theme_overrides]
+idle_fg                 = "#c3c6da"
+
+[[block]]
+block                   = "battery"
+driver                  = "sysfs"
+format                  = "{percentage}"
+interval                = 30
+[block.theme_overrides]
+good_fg                 = "#baceb6"
+
+[[block]]
+block                   = "time"
+format                  = "<b>%a %d</b> <span color='#ffffff'>\u00a0<b>%I:%M %p</b>\u00a0</span>"
+timezone                = "Europe/Kiev"
+locale                  = "en_US"
+interval                = 5
+[block.theme_overrides]
+idle_bg                 = "#26293fe6"
+idle_fg                 = "#c3c6da"
