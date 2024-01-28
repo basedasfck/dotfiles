@@ -1,0 +1,249 @@
+set $mod Mod4
+set $alt Mod1
+
+# font for window titles
+font "pango:Verdana, Symbols Nerd Font 6.5"
+
+# startup apps
+exec --no-startup-id nvidia-settings --load-config-only && nvidia-settings -a '[gpu:0]/GPUPowerMizerMode=1'
+exec_always --no-startup-id feh --no-fehbg --randomize --bg-fill ~/.wp
+exec --no-startup-id picom --config ~/.config/picom/picom.conf -b
+exec --no-startup-id nm-applet
+exec --no-startup-id dunst -config ~/.config/dunst/dunstrc
+exec --no-startup-id numlockx on
+exec --no-startup-id clipmenud
+exec --no-startup-id xss-lock --transfer-sleep-lock -- ~/.config/i3lock-color/lock --nofork
+exec --no-startup-id jamesdsp --tray
+
+# hotkeys
+bindsym $mod+o              exec --no-startup-id xrandr --output eDP-1-1 --auto --output HDMI-0 --auto --right-of eDP-1-1; restart
+bindsym $mod+Shift+o        exec --no-startup-id xrandr --output eDP-1-1 --off; restart
+
+bindsym $mod+Return         exec --no-startup-id alacritty
+bindsym $mod+grave          exec --no-startup-id alacritty -t htop -e htop
+
+set $menu -fn 'Verdana':size=11.5 -nb '#222436' -nf '#444a73' -sb '#1b1d2b' -sf '#c8d3f5'
+bindsym $mod+d              exec --no-startup-id dmenu_run $menu
+bindsym $alt+space          exec "rofi -show combi -combi-modes filebrowser,drun"
+bindsym $mod+Tab            exec --no-startup-id clipmenu $menu
+bindsym $alt+BackSpace      exec --no-startup-id clipdel -d ".*" && xsel -cp && xsel -cb && notify-send -i clipboard -t 2500 " Clipboard" "<span color='#c3e88d'>All clipboard entries have been cleared</span>" -u low
+bindsym $alt+grave          exec --no-startup-id dunstctl history-pop
+
+bindsym $mod+F1             exec --no-startup-id firefox
+bindsym $mod+F2             exec --no-startup-id firefox --private-window
+bindsym $mod+F3             exec --no-startup-id chromium
+bindsym $mod+F4             exec --no-startup-id chromium --incognito
+
+bindsym $alt+a              exec --no-startup-id telegram-desktop
+bindsym $alt+q              [class="(?i)telegramdesktop"] kill
+
+bindsym $mod+m              exec --no-startup-id xclip -o | xargs mpv --player-operation-mode=pseudo-gui
+bindsym $mod+y              exec --no-startup-id xclip -o | xargs ~/.local/bin/downloader
+bindsym $mod+t              exec --no-startup-id firefox --private-window "https://www.deepl.com/translator?share=generic#en/ru/`xclip -o`"
+bindsym $alt+m              exec --no-startup-id songrec recognize | xsel -ib --trim && notify-send -i apple-music -t 25000 " Song recognized" "<span color='#c3e88d'><b>`xsel -ob`</b></span>" -u low
+
+set $sn ~/storage/ss/%b%d_%H%M%S.png -e 'notify-send -i filename-moodbar -t 2500 "󰍹 Screenshot saved" "~/storage/ss/<b>$n</b>" -u low'
+bindsym Print               exec --no-startup-id scrot -q 90 $sn
+bindsym --release $alt+s    exec --no-startup-id scrot -q 90 -fs $sn
+bindsym $alt+d              exec --no-startup-id scrot -q 90 -d5 $sn
+bindsym $alt+w              exec --no-startup-id scrot -q 90 -u $sn
+bindsym --release $alt+r    exec --no-startup-id scrot -q 100 -fs --silent - | echo $(tesseract -l eng stdin stdout) | xsel -ip && notify-send -i firefox-nightly -t 5000 " Recognition completed" "<span color='#828bb8'>`xsel -op`</span>" -u low
+
+bindsym $alt+1              exec --no-startup-id warp-cli disconnect && sleep 1 && notify-send -i computer-fail -t 5000 "WARP " "Status update: <b>Disconnected</b>\n<span color='#ff757f'>IP: `curl ifconfig.me`</span>" -u low
+bindsym $alt+2              exec --no-startup-id warp-cli connect && sleep 1 && notify-send -i state_running -t 10000 "WARP " "Status update: <b>Connected</b>\n<span color='#c3e88d'>`warp-cli warp-stats`</span>" -u low
+
+bindsym $mod+Escape         exec --no-startup-id ~/.local/bin/power
+bindsym $alt+Escape         exec --no-startup-id loginctl lock-session
+
+# volume control
+bindsym $alt+Up                 exec --no-startup-id wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%+
+bindsym $alt+Down               exec --no-startup-id wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-
+bindsym XF86AudioRaiseVolume    exec --no-startup-id wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%+
+bindsym XF86AudioLowerVolume    exec --no-startup-id wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-
+bindsym XF86AudioMute           exec --no-startup-id wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle
+bindsym XF86AudioMicMute        exec --no-startup-id wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle
+
+# moving windows with the mouse
+floating_modifier               $mod
+# kill focused window
+bindsym $mod+q                  kill
+# change focus
+bindsym $mod+j                  focus left
+bindsym $mod+k                  focus down
+bindsym $mod+l                  focus up
+bindsym $mod+semicolon          focus right
+bindsym $mod+Left               focus left
+bindsym $mod+Down               focus down
+bindsym $mod+Up                 focus up
+bindsym $mod+Right              focus right
+# move focused window
+bindsym $mod+Shift+j            move left
+bindsym $mod+Shift+k            move down
+bindsym $mod+Shift+l            move up
+bindsym $mod+Shift+semicolon    move right
+bindsym $mod+Shift+Left         move left
+bindsym $mod+Shift+Down         move down
+bindsym $mod+Shift+Up           move up
+bindsym $mod+Shift+Right        move right
+# split in horizontal/vertical orientation
+bindsym $mod+h                  split h
+bindsym $mod+v                  split v
+# enter fullscreen mode for the focused container
+bindsym $mod+f                  fullscreen toggle
+# change container layout (stacked, tabbed, toggle split)
+bindsym $mod+s                  layout stackig
+bindsym $mod+w                  layout tabbed
+bindsym $mod+e                  layout toggle split
+# toggle tiling/floating
+bindsym $mod+Shift+space        floating toggle
+# change focus between tiling/floating windows
+bindsym $mod+space              focus mode_toggle
+# focus the parent/child container
+bindsym $mod+a                  focus parent
+bindsym $mod+z                  focus child
+# make the currently focused window a scratchpad
+bindsym $mod+BackSpace          move scratchpad
+# show the first scratchpad window
+bindsym $mod+backslash          scratchpad show
+# reload the configuration file
+bindsym $mod+Shift+w            reload
+# restart i3 inplace
+bindsym $mod+Shift+r            restart
+# exit i3
+bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -B 'Yes, exit i3' 'i3-msg exit'"
+
+# resize window
+mode "resize" {
+  bindsym j resize shrink width 10 px or 10 ppt
+  bindsym k resize grow height 10 px or 10 ppt
+  bindsym l resize shrink height 10 px or 10 ppt
+  bindsym semicolon resize grow width 10 px or 10 ppt
+  bindsym Left resize shrink width 10 px or 10 ppt
+  bindsym Down resize grow height 10 px or 10 ppt
+  bindsym Up resize shrink height 10 px or 10 ppt
+  bindsym Right resize grow width 10 px or 10 ppt
+  bindsym Return mode "default"
+  bindsym Escape mode "default"
+  bindsym $mod+r mode "default"
+}
+bindsym $mod+r mode "resize"
+
+# named workspaces
+set $ws1 "1:<span color='#c099ff'>⬤</span> ~1 <b>core</b>"
+set $ws2 "2:<span color='#82aaff'>⬤</span> ~2 <b>dev</b> "
+set $ws3 "3:<span color='#86e1fc'>⬤</span> ~3 <b>files</b> "
+set $ws4 "4:<span color='#828bb8'>⬤</span> ~4 <b>vm</b> "
+set $ws5 "5"
+set $ws6 "6"
+set $ws7 "7"
+set $ws8 "8"
+set $ws9 "9"
+set $ws0 "10"
+
+workspace $ws1 output primary
+workspace $ws2 output primary
+workspace $ws3 output primary
+workspace $ws4 output primary
+workspace $ws5 output primary
+workspace $ws6 output primary
+workspace $ws7 output primary
+workspace $ws8 output primary
+workspace $ws9 output primary
+workspace $ws0 output eDP-1-1
+
+# switch to workspace
+bindsym $mod+1 workspace number $ws1
+bindsym $mod+2 workspace number $ws2
+bindsym $mod+3 workspace number $ws3
+bindsym $mod+4 workspace number $ws4
+bindsym $mod+5 workspace number $ws5
+bindsym $mod+6 workspace number $ws6
+bindsym $mod+7 workspace number $ws7
+bindsym $mod+8 workspace number $ws8
+bindsym $mod+9 workspace number $ws9
+bindsym $mod+0 workspace number $ws0
+bindsym $alt+Tab workspace back_and_forth
+workspace_auto_back_and_forth yes
+
+# move focused container to workspace
+bindsym $mod+Shift+1 move container to workspace number $ws1
+bindsym $mod+Shift+2 move container to workspace number $ws2
+bindsym $mod+Shift+3 move container to workspace number $ws3
+bindsym $mod+Shift+4 move container to workspace number $ws4
+bindsym $mod+Shift+5 move container to workspace number $ws5
+bindsym $mod+Shift+6 move container to workspace number $ws6
+bindsym $mod+Shift+7 move container to workspace number $ws7
+bindsym $mod+Shift+8 move container to workspace number $ws8
+bindsym $mod+Shift+9 move container to workspace number $ws9
+bindsym $mod+Shift+0 move container to workspace number $ws0
+
+# assign programs to workspace
+assign [class="(?i)code"] → $ws2
+for_window [class="(?i)code"] focus
+
+assign [class="(?i)feh|(?i)zathura"] → $ws3
+for_window [class="(?i)feh|(?i)zathura"] focus
+
+assign [class="(?i)virt-manager"] → $ws4
+for_window [class="(?i)virt-manager"] focus
+
+# rules
+default_border none
+default_floating_border none
+
+for_window [class="(?i)firefox" instance="(?i)browser" window_role="^About"] floating enable
+for_window [class="(?i)firefox" instance="(?i)toolkit" window_role="^Picture"] sticky enable
+for_window [class="(?i)mpv"] floating enable
+for_window [class="(?i)qbittorrent"] floating enable, resize set 2048 1536, move position center
+for_window [class="(?i)telegramdesktop"] floating enable, resize set 950 1500, move position center
+
+for_window [all]                                title_format "  %title "
+set $term class="(?i)alacritty"
+for_window [$term]                              title_format " <b>$</b>_ %title "
+for_window [$term title="(?i)nvim"]             title_format "  %title "
+for_window [$term title="(?i)~/storage/dev"]    title_format " [<b>Git</b>] %title "
+for_window [$term title="(?i)ranger"]           title_format "  %title "
+for_window [class="(?i)feh"]                    title_format "  %title "
+for_window [class="(?i)file-roller"]            title_format "  %title "
+for_window [class="(?i)code"]                   title_format "  %title "
+for_window [class="(?i)chromium"]               title_format "  %title "
+for_window [class="(?i)firefox"]                title_format "  %title "
+for_window [class="(?i)gedit"]                  title_format "  %title "
+for_window [class="(?i)mpv"]                    title_format "  %title "
+for_window [class="(?i)nemo"]                   title_format "  %title "
+for_window [class="(?i)pavucontrol"]            title_format "  %title "
+for_window [class="(?i)qbittorrent"]            title_format "  %title "
+for_window [class="(?i)songrec"]                title_format "  %title "
+for_window [class="(?i)telegramdesktop"]        title_format "  %title "
+for_window [class="(?i)zathura"]                title_format "  %title "
+
+# class                 border  backgr. text    indicator
+client.focused          #38394a #38394a #c3e88d #38394a
+client.focused_inactive #222436 #222436 #c8d3f5 #222436
+client.unfocused        #222436 #222436 #c8d3f5 #222436
+client.urgent           #222436 #222436 #ffc777 #222436
+
+# i3bar
+bar {
+  output                  primary
+  font                    "pango:Verdana, Symbols Nerd Font 7"
+  position                top
+  height                  35
+  status_command          /usr/bin/i3status-rs ~/.config/i3status-rust/config
+  separator_symbol        "|"
+  tray_output             primary
+  tray_padding            5
+  strip_workspace_numbers yes
+  colors {
+    background          #222436
+    separator           #444a73
+    focused_workspace   #222436 #1b1d2b #c8d3f5
+    active_workspace    #222436 #1b1d2b #c8d3f5
+    inactive_workspace  #222436 #1b1d2b #828bb8
+    urgent_workspace    #222436 #1b1d2b #ffc777
+  }
+}
+
+# gaps
+gaps inner 1px
+smart_gaps on

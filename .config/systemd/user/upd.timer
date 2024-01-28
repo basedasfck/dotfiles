@@ -1,0 +1,10 @@
+[Unit]
+Description=Checking for pacman updates
+
+[Timer]
+OnStartupSec=10sec
+OnUnitActiveSec=180m
+Unit=upd.service
+
+[Install]
+WantedBy=timers.target

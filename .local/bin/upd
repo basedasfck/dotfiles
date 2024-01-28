@@ -1,0 +1,6 @@
+#!/bin/sh
+
+upd=$(checkupdates | cut -f1,4 -d' ')
+if [ -n "$upd" ]; then
+  dunstify -i /usr/share/icons/Papirus-Light/16x16/actions/dialog-scripts.svg -u critical -r 60 "UPD: $(echo "$upd" | wc -l)" "$upd"
+fi

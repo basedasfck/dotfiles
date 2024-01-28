@@ -1,0 +1,16 @@
+configuration {
+  icon-theme: "Papirus-Dark";
+  font: "Verdana 11.5";
+  show-icons: true;
+  display-combi: "";
+  display-drun: "";
+  display-filebrowser: "";
+  display-window: "";
+
+  filebrowser {
+  directory: "/home/basedasfck/storage";
+  sorting-method: "mtime";
+  directories-first: false;
+  }
+}
+@theme "~/.config/rofi/theme.rasi"

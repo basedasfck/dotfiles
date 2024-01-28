@@ -1,0 +1,6 @@
+[Unit]
+Description=Checking for pacman updates
+
+[Service]
+Type=oneshot
+ExecStart=-%h/.local/bin/upd

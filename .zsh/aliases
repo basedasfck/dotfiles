@@ -1,0 +1,12 @@
+alias cp='cp -i'
+alias delta='delta --line-numbers --diff-highlight'
+alias df='df -h'
+alias diff='diff --color=auto'
+alias dotfiles='git --git-dir=$HOME/.dotfiles --work-tree=$HOME'
+alias eza='eza -aghlFS --colour-scale --git --icons --octal-permissions'
+alias grep='grep --color=auto'
+alias ip='ip -color=auto'
+alias ls='ls --color=auto'
+alias pkgs="pacman -Qq | fzf --preview 'pacman -Qil {}' --layout=reverse --bind 'enter:execute(pacman -Qil {} | less)'"
+alias svim='sudoedit nvim'
+alias vim='nvim'

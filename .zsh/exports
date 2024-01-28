@@ -1,0 +1,32 @@
+# less
+export LESS=-R
+export LESS_TERMCAP_mb=$'\E[01;32m'
+export LESS_TERMCAP_md=$'\E[01;32m'
+export LESS_TERMCAP_me=$'\E[0m'
+export LESS_TERMCAP_se=$'\E[0m'
+export LESS_TERMCAP_so=$'\E[01;47;34m'
+export LESS_TERMCAP_ue=$'\E[0m'
+export LESS_TERMCAP_us=$'\E[01;36m'
+
+# bat
+export BAT_THEME="base16"
+
+# fzf
+export FZF_DEFAULT_COMMAND='fd --type f --follow --hidden'
+export FZF_DEFAULT_OPTS="--height 50%"
+export FZF_DEFAULT_OPTS=$FZF_DEFAULT_OPTS'
+  --color=bg:#1b1d2b,fg:#828bb8,hl:#c8d3f5,bg+:#1b1d2b,fg+:#c8d3f5,hl+:#c3e88d
+  --color=header:#c8d3f5,info:#444a73,marker:#82aaff,pointer:#ff757f,prompt:#c8d3f5,spinner:#82aaff
+  --color=border:#222436,preview-bg:#1b1d2b'
+export FZF_ALT_C_COMMAND='fd --type d . --color=never --follow --hidden'
+export FZF_ALT_C_OPTS="--height 50% --preview 'tree -C {} | head -100'"
+export FZF_ALT_C_OPTS=$FZF_ALT_C_OPTS'
+  --color=bg:#1b1d2b,fg:#828bb8,hl:#c8d3f5,bg+:#1b1d2b,fg+:#c8d3f5,hl+:#c3e88d
+  --color=header:#c8d3f5,info:#444a73,marker:#82aaff,pointer:#ff757f,prompt:#c8d3f5,spinner:#82aaff
+  --color=border:#222436,preview-bg:#1b1d2b'
+export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
+export FZF_CTRL_T_OPTS="--height 50% --preview 'bat --theme="base16" --style=numbers --color=always --line-range :100 {}'"
+export FZF_CTRL_T_OPTS=$FZF_CTRL_T_OPTS'
+  --color=bg:#1b1d2b,fg:#828bb8,hl:#c8d3f5,bg+:#1b1d2b,fg+:#c8d3f5,hl+:#c3e88d
+  --color=header:#c8d3f5,info:#444a73,marker:#82aaff,pointer:#ff757f,prompt:#c8d3f5,spinner:#82aaff
+  --color=border:#222436,preview-bg:#1b1d2b'

@@ -1,0 +1,68 @@
+[colors.bright]
+black = "#444a73"
+blue = "#82aaff"
+cyan = "#86e1fc"
+green = "#c3e88d"
+magenta = "#c099ff"
+red = "#ff757f"
+white = "#c8d3f5"
+yellow = "#ffc777"
+
+[colors.cursor]
+cursor = "#ff757f"
+text = "#c8d3f5"
+
+[colors.normal]
+black = "#1b1d2b"
+blue = "#82aaff"
+cyan = "#86e1fc"
+green = "#c3e88d"
+magenta = "#c099ff"
+red = "#ff757f"
+white = "#828bb8"
+yellow = "#ffc777"
+
+[colors.primary]
+background = "#222436"
+foreground = "#c8d3f5"
+
+[cursor.style]
+blinking = "On"
+shape = "Underline"
+
+[env]
+TERM = "alacritty"
+
+[font]
+size = 9.5
+
+[font.bold]
+family = "Consolas"
+style = "Bold"
+
+[font.bold_italic]
+family = "Consolas"
+style = "Bold Italic"
+
+[font.italic]
+family = "Consolas"
+style = "Italic"
+
+[font.normal]
+family = "Consolas"
+style = "Regular"
+
+[font.offset]
+x = 0
+y = 0
+
+[scrolling]
+history = 50000
+
+[window]
+dynamic_padding = false
+dynamic_title = true
+
+[window.padding]
+x = 3
+y = 3

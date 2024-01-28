@@ -1,0 +1,48 @@
+upd() {
+  sudo pacman -Syu
+  paru -Sua
+  paru -c
+  nvim --headless "+Lazy! sync" +qa
+  curl -fLo ~/.config/mpv/ArtCNN_C4F8.glsl \
+    https://raw.githubusercontent.com/Artoriuz/ArtCNN/main/ArtCNN_C4F8.glsl
+  curl -fLo ~/.config/mpv/scripts/thumbfast.lua --create-dirs \
+    https://raw.githubusercontent.com/po5/thumbfast/master/thumbfast.lua
+  curl -fLo ~/.config/mpv/scripts/osc.lua --create-dirs \
+    https://raw.githubusercontent.com/po5/thumbfast/vanilla-osc/player/lua/osc.lua
+  curl -fLo ~/.config/mpv/script-opts/thumbfast.conf --create-dirs \
+    https://raw.githubusercontent.com/po5/thumbfast/master/thumbfast.conf
+  rm -rf .local/bin/yt-dlp/*
+  cd .local/bin && python -m venv yt-dlp && source yt-dlp/bin/activate \
+    && python -m pip install --upgrade pip setuptools wheel urllib3 certifi Brotli websockets requests mutagen pycryptodomex charset_normalizer idna \
+    && deactivate \
+    && cd
+  curl -fLo ~/.local/bin/yt-dlp/bin/yt-dlp \
+    https://github.com/yt-dlp/yt-dlp/releases/latest/download/yt-dlp
+  chmod +x .local/bin/yt-dlp/bin/yt-dlp
+  yt-dlp --update-to nightly
+  paccache -rk1
+  paccache -ruk0
+}
+
+clean() {
+  rm -fv .config/QtProject.conf
+  rm -fv .local/share/recently-used.xbel
+  rm -fv .local/share/TelegramDesktop/*.*
+  rm -fv .local/share/TelegramDesktop/tdata/temp/*
+  rm -rfv .config/gedit
+  rm -rfv .config/Code/{Cache,CachedData,logs}
+  rm -rfv .config/obs-studio/{logs,profiler_data}
+  rm -rfv .config/ranger/plugins/{__pycache__,icons/__pycache__}
+  rm -rfv .local/share/{gedit,gvfs-metadata,qBittorrent/logs,ranger,songrec,zathura}
+  rm -rfv .local/state/nvim
+  rm -rfv .mozilla/firefox/{*.default-release/datareporting/archived,Crash\ Reports}
+  rm -rfv storage/Telegram*
+  rm -rfv .cache
+  echo -e "pkgs\nfaillock --user $USER --reset\ndotfiles status\nsudo reflector --verbose --latest 15 --protocol https --sort rate --save /etc/pacman.d/mirrorlist\nupd\nclean\nexit" > .history
+  sudo sh -c "echo > /var/log/btmp"
+  sudo sh -c "echo > /var/log/lastlog"
+  sudo sh -c "echo > /var/log/pacman.log"
+  sudo sh -c "echo > /var/log/wtmp"
+  sudo rm -fv /var/log/cloudflare-warp/*
+  sudo journalctl --rotate && sudo journalctl --vacuum-time=1s
+}

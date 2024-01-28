@@ -1,0 +1,169 @@
+[theme]
+theme = "native"
+[theme.overrides]
+idle_bg = "#222436"
+idle_fg = "#c8d3f5"
+critical_bg = "#222436"
+critical_fg = "#ff757f"
+good_bg = "#222436"
+good_fg = "#c8d3f5"
+info_bg = "#222436"
+info_fg = "#c3e88d"
+warning_bg = "#222436"
+warning_fg = "#ff757f"
+
+[icons]
+icons = "none"
+[icons.overrides]
+ping = "<span color='#ffffff'><b>PING</b></span> "
+net_up = "<span color='#ffffff'><b>UP</b></span> "
+net_down = "<span color='#ffffff'><b>DL</b></span> "
+cpu = "<span color='#ffffff'><b>CPU</b></span> "
+memory_mem = "<span color='#ffffff'><b>MEM</b></span> "
+gpu = "<span color='#ffffff'><b>NVIDIA</b></span> "
+cogs = "<span color='#ffffff'><b>SYSTEM</b></span> "
+disk_drive = "<span color='#ffffff'><b>SSD</b></span> "
+thermometer = "<b>TEMP</b> "
+volume = "<span color='#444a73'></span> "
+volume_muted = "<b>MUTED</b> "
+bat = [
+  "<b>BAT</b> ",
+  "<b>BAT</b> [<b>󰁅</b>]",
+  "<b>BAT</b> [<b>󰁅</b>]",
+  "<b>BAT</b> [<b>󰁅</b>]",
+  "<b>BAT</b> [<b>?</b>]",
+  "<b>BAT</b> [<b>?</b>]",
+  "<b>BAT</b> [<b>?</b>]",
+  "<b>BAT</b> [<b>~</b>]",
+  "<b>BAT</b> [<b>~</b>]",
+  "<b>BAT</b> [<b>~</b>]",
+]
+bat_charging = "<b>CHG</b> []"
+bat_not_available = "<b>ERROR</b> "
+
+[[block]]
+block = "focused_window"
+format = " <span face='Consolas'> $title.str(max_w:96, rot_interval:0.5, rot_separator:' ### ') </span><span color='#38394a' face='Consolas'></span> |"
+[block.theme_overrides]
+idle_fg = "#444a73"
+
+[[block]]
+block = "custom"
+json = true
+command = ''' echo "{\"icon\":\"ping\",\"text\":\"`ping -c1 google.com | tail -n1 | cut -d'/' -f5`\"}" '''
+format = " $icon $text.str(w:5) <span color='#636a94'> # </span>"
+interval = 15
+merge_with_next = true
+hide_when_empty = true
+[block.theme_overrides]
+idle_fg = "#828bb8"
+
+[[block]]
+block = "net"
+format = " ^icon_net_down <span color='#c3e88d'>$speed_down.eng(w:4, p:M)</span> <span color='#636a94'> ~ </span> ^icon_net_up <span color='#ff757f'>$speed_up.eng(w:4, p:M)</span> "
+interval = 2
+inactive_format = " <span color='#ff757f'>N/A</span> "
+[[block.click]]
+button = "left"
+cmd = "alacritty -t NET -e bandwhich"
+
+[[block]]
+block = "cpu"
+format = " $icon $utilization.eng(w:4) <span color='#636a94'> ፧ </span> $max_frequency.eng(w:4) "
+interval = 1
+[[block.click]]
+button = "left"
+cmd = "alacritty -t CPU -e htop -s PERCENT_CPU -t"
+[[block.click]]
+button = "right"
+cmd = "alacritty -t CPU -e top -o %CPU"
+
+[[block]]
+block = "memory"
+format = " $icon $mem_used.eng(w:4, p:G) "
+warning_mem = 50
+critical_mem = 75
+interval = 5
+[[block.click]]
+button = "left"
+cmd = "alacritty -t MEM -e htop -s PERCENT_MEM -t"
+[[block.click]]
+button = "right"
+cmd = "alacritty -t MEM -e top -o %MEM"
+
+[[block]]
+block = "nvidia_gpu"
+interval = 1
+format = " $icon $utilization.eng(w:4) <span color='#636a94'> ፧ </span> $memory.eng(w:4, p:G) "
+[[block.click]]
+button = "left"
+cmd = "alacritty -t NVIDIA -e nvtop"
+[[block.click]]
+button = "right"
+cmd = "alacritty -t NVIDIA -e watch -n1 nvidia-smi"
+
+[[block]]
+block = "load"
+format = " $icon $1m.eng(w:4) <span color='#636a94'> ፧ </span> $5m.eng(w:4) <span color='#636a94'> ፧ </span> $15m.eng(w:4) "
+interval = 3
+
+[[block]]
+block = "disk_space"
+path = "/"
+format = " $icon $available  <span color='#c8d3f5'>[<span color='#00ff00'>+</span>$used]</span> "
+info_type = "used"
+alert_unit = "GB"
+warning = 350
+alert = 400
+interval = 25
+[[block.click]]
+button = "left"
+cmd = "nemo ~/storage"
+[[block.click]]
+button = "right"
+cmd = "alacritty -t ranger -e ranger ~/storage"
+
+[[block]]
+block = "sound"
+format = " $icon +<b>$volume.eng(hide_unit:true)</b> "
+step_width = 1
+max_vol = 115
+show_volume_when_muted = true
+[[block.click]]
+button = "left"
+cmd = "pavucontrol"
+
+[[block]]
+block = "temperature"
+format = " $icon $max <span color='#636a94'> -- </span>"
+scale = "celsius"
+chip = "coretemp-isa-0000"
+inputs = ["Core 0", "Core 1", "Core 2", "Core 3", "Core 4", "Core 5"]
+good = 20
+idle = 55
+info = 60
+warning = 80
+interval = 5
+merge_with_next = true
+[[block.click]]
+button = "left"
+cmd = "alacritty -t Temperature -e watch -n1 sensors"
+
+[[block]]
+block = "battery"
+driver = "sysfs"
+format = "$icon $percentage"
+interval = 30
+merge_with_next = true
+[block.theme_overrides]
+idle_fg = "#c3e88d"
+good_fg = "#c3e88d"
+
+[[block]]
+block = "time"
+format = "<span color='#636a94'> -- </span> $timestamp.datetime(f:'<b>%a %d</b>  <b>%I:%M %p</b>', l:en_US) "
+timezone = "Europe/Kiev"
+interval = 1
+[block.theme_overrides]
+idle_bg = "#26293fe6"
+idle_fg = "#828bb8"
