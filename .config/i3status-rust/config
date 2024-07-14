@@ -129,9 +129,6 @@ format = " $icon +<b>$volume.eng(hide_unit:true)</b> "
 step_width = 1
 max_vol = 115
 show_volume_when_muted = true
-[[block.click]]
-button = "left"
-cmd = "pavucontrol"
 
 [[block]]
 block = "temperature"
